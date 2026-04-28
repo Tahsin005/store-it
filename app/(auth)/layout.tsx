@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex min-h-screen bg-slate-50">
             <section className="hidden w-1/2 items-center justify-center bg-[#FA7275] p-10 lg:flex xl:w-2/5">
-                <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
+                <div className="flex max-h-200 max-w-107.5 flex-col justify-center space-y-12">
                     <Image
                         src="/assets/icons/logo-full.svg"
                         alt="logo"
@@ -43,11 +43,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         alt="logo"
                         width={224}
                         height={82}
-                        className="h-auto w-[200px]"
+                        className="h-auto w-50"
                     />
                 </div>
 
-                <div className="w-full max-w-[480px]">
+                <div className="w-full max-w-120">
                     {children}
                 </div>
             </section>

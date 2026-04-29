@@ -17,7 +17,10 @@ interface Props {
     className?: string;
 }
 
+import { useToast } from "@/hooks/use-toast";
+
 const FileUploader = ({ ownerId, accountId, className }: Props) => {
+    const { toast } = useToast();
     const path = usePathname();
     const [files, setFiles] = useState<File[]>([]);
 
@@ -30,6 +33,12 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
                 setFiles((prevFiles) =>
                     prevFiles.filter((f) => f.name !== file.name),
                 );
+
+                return toast({
+                    title: `${file.name} is too large.`,
+                    description: "Max file size is 50MB.",
+                    variant: "destructive",
+                });
             }
 
             return uploadFile({ file, ownerId, accountId, path }).then(
@@ -38,6 +47,10 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
                         setFiles((prevFiles) =>
                             prevFiles.filter((f) => f.name !== file.name),
                         );
+                        toast({
+                            title: `Uploaded ${file.name} successfully!`,
+                            variant: "success",
+                        });
                     }
                 },
             );

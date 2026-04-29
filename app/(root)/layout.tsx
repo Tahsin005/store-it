@@ -1,6 +1,8 @@
 import { getCurrentUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import React from 'react';
+
+export const dynamic = "force-dynamic";
 import { Toaster } from "@/components/ui/sonner";
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';

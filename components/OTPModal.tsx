@@ -10,6 +10,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { verifySecret, sendEmailOTP } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const OtpModal = ({
   accountId,
@@ -18,6 +19,7 @@ const OtpModal = ({
   accountId: string;
   email: string;
 }) => {
+  const { toast } = useToast();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState("");
@@ -32,6 +34,11 @@ const OtpModal = ({
 
       if (sessionId) router.push("/");
     } catch (error) {
+      toast({
+        title: "Verification Failed",
+        description: "The code you entered is invalid. Please try again.",
+        variant: "destructive",
+      });
       console.log("Failed to verify OTP", error);
     }
 
@@ -40,6 +47,11 @@ const OtpModal = ({
 
   const handleResendOtp = async () => {
     await sendEmailOTP({ email });
+    toast({
+      title: "OTP Resent",
+      description: `A new code has been sent to ${email}`,
+      variant: "success",
+    });
   };
 
   if (!isOpen) return null;

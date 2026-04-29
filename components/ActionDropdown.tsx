@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { Models } from "node-appwrite";
 import { actionsDropdownItems } from "@/constants";
@@ -34,13 +35,21 @@ import { FileDocument } from "@/types/appwrite";
 
 type ActionType = (typeof actionsDropdownItems)[number];
 
-const ActionDropdown = ({ file }: { file: FileDocument }) => {
+const ActionDropdown = ({
+  file,
+  setIsDeleting,
+}: {
+  file: FileDocument;
+  setIsDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { toast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.name);
   const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
+  const [loadingEmail, setLoadingEmail] = useState<string | null>(null);
 
   const path = usePathname();
 
@@ -55,6 +64,11 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
   const handleAction = async () => {
     if (!action) return;
     setIsLoading(true);
+
+    if (action.value === "delete" && setIsDeleting) {
+      setIsDeleting(true);
+    }
+
     let success = false;
 
     const actions = {
@@ -67,12 +81,28 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
 
     success = await actions[action.value as keyof typeof actions]();
 
-    if (success) closeAllModals();
+    if (success) {
+      toast({
+        title: `${action.label} successful!`,
+        variant: "success",
+      });
+      closeAllModals();
+    } else {
+      toast({
+        title: `Failed to ${action.value}.`,
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      if (action.value === "delete" && setIsDeleting) {
+        setIsDeleting(false);
+      }
+    }
 
     setIsLoading(false);
   };
 
   const handleRemoveUser = async (email: string) => {
+    setLoadingEmail(email);
     const updatedEmails = file.users?.filter((e) => e !== email) || [];
 
     const success = await updateFileUsers({
@@ -81,7 +111,19 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
       path,
     });
 
-    if (success) setEmails(updatedEmails);
+    if (success) {
+      toast({
+        title: `Removed ${email} from sharing list.`,
+        variant: "success",
+      });
+      setEmails(updatedEmails);
+    } else {
+      toast({
+        title: `Failed to remove ${email}.`,
+        variant: "destructive",
+      });
+    }
+    setLoadingEmail(null);
     closeAllModals();
   };
 
@@ -109,6 +151,7 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
               file={file}
               onInputChange={setEmails}
               onRemove={handleRemoveUser}
+              loadingEmail={loadingEmail}
             />
           )}
           {value === "delete" && (

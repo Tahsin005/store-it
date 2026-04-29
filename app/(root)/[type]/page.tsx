@@ -1,5 +1,7 @@
 import Card from "@/components/Card";
 import Sort from "@/components/Sort";
+
+export const dynamic = "force-dynamic";
 import { getFiles } from "@/lib/actions/file.actions";
 import { convertFileSize, getFileTypesParams } from "@/lib/utils";
 import { FileDocument } from "@/types/appwrite";

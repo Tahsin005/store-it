@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount, signInUser } from "@/lib/actions/user.actions";
 import OtpModal from "@/components/OTPModal";
+import { useToast } from "@/hooks/use-toast";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -25,8 +26,8 @@ const authFormSchema = (formType: FormType) => {
 };
 
 const AuthForm = ({ type }: { type: FormType }) => {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
@@ -46,7 +47,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    setErrorMessage("");
 
     try {
       const user =
@@ -59,7 +59,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
       setAccountId(user.accountId);
     } catch {
-      setErrorMessage("Failed to create account. Please try again.");
+      toast({
+        title: "Authentication Failed",
+        description: "Failed to create account. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -132,8 +136,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
             />
           )}
         </Button>
-
-        {errorMessage && <p className="text-sm text-red-500">*{errorMessage}</p>}
 
         <div className="flex justify-center text-sm text-slate-600">
           <p>

@@ -17,6 +17,7 @@ const Search = () => {
     const searchQuery = searchParams.get("query") || "";
     const [results, setResults] = useState<FileDocument[]>([]);
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const path = usePathname();
     const [debouncedQuery] = useDebounce(query, 300);
@@ -29,9 +30,11 @@ const Search = () => {
                 return router.push(path.replace(searchParams.toString(), ""));
             }
 
+            setIsLoading(true);
             const files = await getFiles({ types: [], searchText: debouncedQuery });
             setResults(files.documents);
             setOpen(true);
+            setIsLoading(false);
         };
 
         fetchFiles();
@@ -70,14 +73,25 @@ const Search = () => {
 
                 {open && (
                     <ul className="absolute left-0 top-16 z-50 flex w-full flex-col gap-3 rounded-[20px] bg-white p-4 border border-gray-400">
-                        {results.length > 0 ? (
+                        {isLoading ? (
+                            <div className="flex flex-col items-center justify-center py-10 gap-2">
+                                <Image
+                                    src="/assets/icons/loader.svg"
+                                    alt="loader"
+                                    width={40}
+                                    height={40}
+                                    className="animate-spin brightness-0"
+                                />
+                                <p className="text-[14px] leading-5 font-normal text-light-100">Searching...</p>
+                            </div>
+                        ) : results.length > 0 ? (
                             results.map((file) => (
                                 <li
-                                    className="flex items-center justify-between"
+                                    className="flex items-center justify-between hover:bg-light-400/50 p-2 rounded-xl transition-all cursor-pointer"
                                     key={file.$id}
                                     onClick={() => handleClickItem(file)}
                                 >
-                                    <div className="flex cursor-pointer items-center gap-4">
+                                    <div className="flex items-center gap-4">
                                         <Thumbnail
                                             type={file.type}
                                             extension={file.extension!}

@@ -43,9 +43,10 @@ interface Props {
     file: FileDocument;
     onInputChange: React.Dispatch<React.SetStateAction<string[]>>;
     onRemove: (email: string) => void;
+    loadingEmail: string | null;
 }
 
-export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
+export const ShareInput = ({ file, onInputChange, onRemove, loadingEmail }: Props) => {
     console.log("This is the file info", file)
     return (
         <>
@@ -78,15 +79,26 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                                 <p className="text-[14px] leading-5 font-semibold">{email}</p>
                                 <Button
                                     onClick={() => onRemove(email)}
+                                    disabled={loadingEmail === email}
                                     className="rounded-full bg-transparent text-light-100 shadow-none transition-all hover:bg-light-400/50"
                                 >
-                                    <Image
-                                        src="/assets/icons/remove.svg"
-                                        alt="Remove"
-                                        width={24}
-                                        height={24}
-                                        className="aspect-square rounded-full"
-                                    />
+                                    {loadingEmail === email ? (
+                                        <Image
+                                            src="/assets/icons/loader.svg"
+                                            alt="loader"
+                                            width={24}
+                                            height={24}
+                                            className="animate-spin brightness-0"
+                                        />
+                                    ) : (
+                                        <Image
+                                            src="/assets/icons/remove.svg"
+                                            alt="Remove"
+                                            width={24}
+                                            height={24}
+                                            className="aspect-square rounded-full"
+                                        />
+                                    )}
                                 </Button>
                             </li>
                         ))}

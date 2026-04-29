@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 import { FileDocument } from "@/types/appwrite";
 
 import ActionDropdown from "@/components/ActionDropdown";

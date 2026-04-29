@@ -1,4 +1,5 @@
 import Card from "@/components/Card";
+import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
 import { getFileTypesParams } from "@/lib/utils";
 import { FileDocument } from "@/types/appwrite";
@@ -27,7 +28,7 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
                     <div className="mt-5 flex items-center sm:mt-0 sm:gap-3">
                         <p className="text-[16px] leading-6 font-normal hidden text-light-200 sm:block">Sort by:</p>
 
-                        {/* <Sort /> */}
+                        <Sort />
                     </div>
                 </div>
             </section>

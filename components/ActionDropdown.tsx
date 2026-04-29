@@ -153,7 +153,7 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel className="max-w-[200px] truncate">
+          <DropdownMenuLabel className="max-w-50 truncate">
             {file.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

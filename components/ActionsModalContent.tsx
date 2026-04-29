@@ -46,6 +46,7 @@ interface Props {
 }
 
 export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
+    console.log("This is the file info", file)
     return (
         <>
             <ImageThumbnail file={file} />

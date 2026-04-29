@@ -58,9 +58,9 @@ const OtpModal = ({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="shad-alert-dialog">
+      <AlertDialogContent className="space-y-4 max-w-[95%] sm:w-fit rounded-xl md:rounded-[30px] px-4 md:px-8 py-10 bg-white outline-none">
         <AlertDialogHeader className="relative flex justify-center">
-          <AlertDialogTitle className="h2 text-center">
+          <AlertDialogTitle className="text-[24px] leading-[36px] font-bold text-center">
             Enter Your OTP
             <Image
               src="/assets/icons/close-dark.svg"
@@ -68,23 +68,23 @@ const OtpModal = ({
               width={20}
               height={20}
               onClick={() => setIsOpen(false)}
-              className="otp-close-button"
+              className="absolute -right-1 -top-7 cursor-pointer sm:-right-2 sm:-top-4"
             />
           </AlertDialogTitle>
-          <AlertDialogDescription className="subtitle-2 text-center text-light-100">
+          <AlertDialogDescription className="text-[16px] leading-6 font-medium text-center text-light-100">
             We&apos;ve sent a code to{" "}
-            <span className="pl-1 text-brand">{email}</span>
+            <span className="pl-1 text-[#FA7275]">{email}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <InputOTP maxLength={6} value={password} onChange={setPassword}>
-          <InputOTPGroup className="shad-otp">
-            <InputOTPSlot index={0} className="shad-otp-slot" />
-            <InputOTPSlot index={1} className="shad-otp-slot" />
-            <InputOTPSlot index={2} className="shad-otp-slot" />
-            <InputOTPSlot index={3} className="shad-otp-slot" />
-            <InputOTPSlot index={4} className="shad-otp-slot" />
-            <InputOTPSlot index={5} className="shad-otp-slot" />
+          <InputOTPGroup className="w-full flex gap-1 sm:gap-2 justify-between">
+            <InputOTPSlot index={0} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
+            <InputOTPSlot index={1} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
+            <InputOTPSlot index={2} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
+            <InputOTPSlot index={3} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
+            <InputOTPSlot index={4} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
+            <InputOTPSlot index={5} className="size-12 md:size-16 text-[32px] md:text-[40px] font-bold rounded-xl border-2 border-light-300 flex items-center justify-center text-[#FA7275] shadow-drop-1 outline-none focus:ring-2 focus:ring-[#FA7275] focus:ring-offset-2 transition-all" />
           </InputOTPGroup>
         </InputOTP>
 
@@ -92,7 +92,7 @@ const OtpModal = ({
           <div className="flex w-full flex-col gap-4">
             <AlertDialogAction
               onClick={handleSubmit}
-              className="shad-submit-btn h-12"
+              className="bg-[#FA7275] hover:bg-[#FA7275]/90 transition-all rounded-full h-12 shadow-drop-1"
               type="button"
             >
               Submit
@@ -107,12 +107,12 @@ const OtpModal = ({
               )}
             </AlertDialogAction>
 
-            <div className="subtitle-2 mt-2 text-center text-light-100">
+            <div className="text-[14px] leading-[20px] font-semibold mt-2 text-center text-light-100">
               Didn&apos;t get a code?
               <Button
                 type="button"
                 variant="link"
-                className="pl-1 text-brand"
+                className="pl-1 text-[#FA7275]"
                 onClick={handleResendOtp}
               >
                 Click to resend

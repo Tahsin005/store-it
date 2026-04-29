@@ -120,10 +120,16 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
         </DialogHeader>
         {["rename", "delete", "share"].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
-            <Button onClick={closeAllModals} className="h-13 flex-1 rounded-full bg-white text-light-100 hover:bg-transparent">
+            <Button
+              onClick={closeAllModals}
+              className="h-13 flex-1 rounded-full border border-light-200/50 bg-white text-light-100 shadow-drop-1 transition-all hover:bg-light-400/20"
+            >
               Cancel
             </Button>
-            <Button onClick={handleAction} className="primary-btn mx-0! h-13 w-full flex-1">
+            <Button
+              onClick={handleAction}
+              className="h-13 flex-1 rounded-full bg-[#FA7275] text-white shadow-drop-1 transition-all hover:bg-[#FA7275]/90"
+            >
               <p className="capitalize">{value}</p>
               {isLoading && (
                 <Image

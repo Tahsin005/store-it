@@ -9,11 +9,11 @@ import Image from "next/image";
 import { FileDocument, UserDocument } from "@/types/appwrite";
 
 const ImageThumbnail = ({ file }: { file: FileDocument }) => (
-    <div className="mb-1! flex items-center gap-3 rounded-xl border border-light-200/40 bg-light-400/50 p-3">
+    <div className="mb-1! flex items-center gap-3 rounded-[20px] border border-light-200/40 bg-light-400/30 p-4">
         <Thumbnail type={file.type} extension={file.extension!} url={file.url} />
         <div className="flex flex-col">
-            <p className="text-[14px] leading-5 font-semibold mb-1">{file.name}</p>
-            <FormattedDateTime date={file.$createdAt} className="caption" />
+            <p className="text-[14px] leading-5 font-semibold line-clamp-1">{file.name}</p>
+            <FormattedDateTime date={file.$createdAt} className="caption text-light-200" />
         </div>
     </div>
 );
@@ -59,7 +59,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                     type="email"
                     placeholder="Enter email address"
                     onChange={(e) => onInputChange(e.target.value.trim().split(","))}
-                    className="body-2 shad-no-focus h-13 w-full rounded-full border px-4 shadow-drop-1"
+                    className="body-2 shad-no-focus h-13 w-full rounded-full border border-light-200/50 px-6 shadow-drop-1 focus-visible:ring-1 focus-visible:ring-[#FA7275]"
                 />
                 <div className="pt-4">
                     <div className="flex justify-between">
@@ -78,7 +78,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                                 <p className="text-[14px] leading-5 font-semibold">{user.email}</p>
                                     <Button
                                         onClick={() => onRemove(user.email)}
-                                        className="rounded-full bg-transparent text-light-100 shadow-none hover:bg-transparent"
+                                        className="rounded-full bg-transparent text-light-100 shadow-none transition-all hover:bg-light-400/50"
                                     >
                                     <Image
                                         src="/assets/icons/remove.svg"

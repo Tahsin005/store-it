@@ -111,7 +111,29 @@ export const getFiles = async ({
             queries,
         );
 
-        console.log({ files });
+        // Resolve owners
+        const ownerIds = [...new Set(files.documents.map((file) => file.owner))].filter(
+            (id): id is string => typeof id === "string",
+        );
+
+        if (ownerIds.length > 0) {
+            const owners = await databases.listDocuments(
+                appwriteConfig.databaseId,
+                appwriteConfig.usersCollectionId,
+                [Query.equal("$id", ownerIds)],
+            );
+
+            const ownerMap = Object.fromEntries(
+                owners.documents.map((owner) => [owner.$id, owner]),
+            );
+
+            files.documents.forEach((file) => {
+                if (typeof file.owner === "string") {
+                    file.owner = ownerMap[file.owner] || file.owner;
+                }
+            });
+        }
+
         return parseStringify(files);
     } catch (error) {
         handleError(error, "Failed to get files");

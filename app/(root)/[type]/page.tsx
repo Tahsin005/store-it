@@ -1,7 +1,7 @@
 import Card from "@/components/Card";
 import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
-import { getFileTypesParams } from "@/lib/utils";
+import { convertFileSize, getFileTypesParams } from "@/lib/utils";
 import { FileDocument } from "@/types/appwrite";
 import { Models } from "node-appwrite";
 
@@ -14,7 +14,8 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
     const types = getFileTypesParams(type) as FileType[];
 
     const files = await getFiles({ types, searchText, sort });
-    console.log("-----------------------------------------", files)
+
+    const totalSize = files.documents.reduce((acc: number, file: FileDocument) => acc + (file.size || 0), 0);
 
     return (
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
@@ -22,7 +23,7 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
                 <h1 className="capitalize text-[34px] leading-10.5 font-bold">{type}</h1>
                 <div className="flex mt-2 flex-col justify-between sm:flex-row sm:items-center">
                     <p className="text-[16px] leading-6 font-normal">
-                        Total: <span className="h5">0 MB</span>
+                        Total: <span className="h5">{convertFileSize(totalSize)}</span>
                     </p>
 
                     <div className="mt-5 flex items-center sm:mt-0 sm:gap-3">

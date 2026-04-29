@@ -19,7 +19,7 @@ export interface FileDocument extends Models.Document {
 
     extension?: string | null;
     size?: number | null;
-    users?: UserDocument[] | null;
+    users?: string[] | null;
 
     owner?: UserDocument;
 }

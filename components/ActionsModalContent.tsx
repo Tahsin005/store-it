@@ -58,7 +58,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                 <Input
                     type="email"
                     placeholder="Enter email address"
-                    onChange={(e) => onInputChange(e.target.value.trim().split(","))}
+                    onChange={(e) => onInputChange(e.target.value.trim().split(",").filter(email => email !== ""))}
                     className="body-2 shad-no-focus h-13 w-full rounded-full border border-light-200/50 px-6 shadow-drop-1 focus-visible:ring-1 focus-visible:ring-[#FA7275]"
                 />
                 <div className="pt-4">
@@ -70,16 +70,16 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                     </div>
 
                     <ul className="pt-2">
-                        {file?.users?.map((user: UserDocument) => (
+                        {file.users?.map((email: string) => (
                             <li
-                                key={user.email}
+                                key={email}
                                 className="flex items-center justify-between gap-2"
                             >
-                                <p className="text-[14px] leading-5 font-semibold">{user.email}</p>
-                                    <Button
-                                        onClick={() => onRemove(user.email)}
-                                        className="rounded-full bg-transparent text-light-100 shadow-none transition-all hover:bg-light-400/50"
-                                    >
+                                <p className="text-[14px] leading-5 font-semibold">{email}</p>
+                                <Button
+                                    onClick={() => onRemove(email)}
+                                    className="rounded-full bg-transparent text-light-100 shadow-none transition-all hover:bg-light-400/50"
+                                >
                                     <Image
                                         src="/assets/icons/remove.svg"
                                         alt="Remove"

@@ -49,7 +49,7 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
     setIsDropdownOpen(false);
     setAction(null);
     setName(file.name);
-    //   setEmails([]);
+    setEmails([]);
   };
 
   const handleAction = async () => {
@@ -60,7 +60,7 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
     const actions = {
       rename: () =>
         renameFile({ fileId: file.$id, name, extension: file.extension!, path }),
-      share: () => updateFileUsers({ fileId: file.$id, emails, path }),
+      share: () => updateFileUsers({ fileId: file.$id, emails: [...(file.users || []), ...emails], path }),
       delete: () =>
         deleteFile({ fileId: file.$id, bucketFileId: file.bucketFileId!, path }),
     };
@@ -73,7 +73,7 @@ const ActionDropdown = ({ file }: { file: FileDocument }) => {
   };
 
   const handleRemoveUser = async (email: string) => {
-    const updatedEmails = emails.filter((e) => e !== email);
+    const updatedEmails = file.users?.filter((e) => e !== email) || [];
 
     const success = await updateFileUsers({
       fileId: file.$id,

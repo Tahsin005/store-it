@@ -43,7 +43,7 @@ const Search = () => {
         }
     }, [searchQuery]);
 
-    const handleClickItem = (file: Models.Document) => {
+    const handleClickItem = (file: FileDocument) => {
         setOpen(false);
         setResults([]);
 
@@ -80,7 +80,7 @@ const Search = () => {
                                     <div className="flex cursor-pointer items-center gap-4">
                                         <Thumbnail
                                             type={file.type}
-                                            extension={file.extension}
+                                            extension={file.extension!}
                                             url={file.url}
                                             className="size-9 min-w-9"
                                         />

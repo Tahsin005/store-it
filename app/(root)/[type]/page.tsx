@@ -1,5 +1,7 @@
+import Card from "@/components/Card";
 import { getFiles } from "@/lib/actions/file.actions";
 import { getFileTypesParams } from "@/lib/utils";
+import { FileDocument } from "@/types/appwrite";
 import { Models } from "node-appwrite";
 
 const Page = async ({ searchParams, params }: SearchParamProps) => {
@@ -11,6 +13,7 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
     const types = getFileTypesParams(type) as FileType[];
 
     const files = await getFiles({ types, searchText, sort });
+    console.log("-----------------------------------------", files)
 
     return (
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
@@ -31,10 +34,8 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
             {files.total > 0 ? (
                 <section className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {files.documents.map((file: Models.Document) => (
-                    <div>
-                        {file.$id}
-                    </div>
+                {files.documents.map((file: FileDocument) => (
+                    <Card key={file.$id} file={file} />
                 ))}
                 </section>
             ) : (
